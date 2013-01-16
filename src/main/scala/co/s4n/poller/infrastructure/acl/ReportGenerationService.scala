@@ -11,7 +11,7 @@ object ReportGenerationService {
     exportador.setMongoURI( "mongodb://" + mongoDbURL + ":" + mongoDbPort + "/" + databaseName )
     exportador.setRutaObjetoJasper( jasperTemplatePath + jasperTemplate + ".jasper" )
     exportador.setColeccion( collName )
-    generateForTheSpecifiedFormat( format, collName )
+    generateForTheSpecifiedFormat( collName, format )
   }
   
   private def generateForTheSpecifiedFormat( collName: String, format: String ) = {
