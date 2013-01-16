@@ -7,14 +7,14 @@ import java.util.UUID
 object ReportGenerationService {
   private val exportador = new ExportadorDocumentos
   
-  def generate( collName: String, format: String, jasperTemplate: String ) = {
+  def generate( collName: String, format: String, jasperTemplate: String ): Unit = {
     exportador.setMongoURI( "mongodb://" + mongoDbURL + ":" + mongoDbPort + "/" + databaseName )
     exportador.setRutaObjetoJasper( jasperTemplatePath + jasperTemplate + ".jasper" )
     exportador.setColeccion( collName )
     generateForTheSpecifiedFormat( collName, format )
   }
   
-  private def generateForTheSpecifiedFormat( collName: String, format: String ) = {
+  private def generateForTheSpecifiedFormat( collName: String, format: String ): Unit = {
 	val uuid = UUID.randomUUID.toString( )
     format match {
       case "zip" => println( "zip" )
@@ -23,12 +23,12 @@ object ReportGenerationService {
     }
   }
   
-  private def generateCSV( uuid: String, collName: String ) = {
+  private def generateCSV( uuid: String, collName: String ): Unit = {
     exportador.setRutaSalida( reporteRutaSalidaCSV + "_" + collName + "_" + uuid + ".csv" )
     exportador.exportarDocumentoACsv    
   }
   
-  private def generatePDF( uuid: String, collName: String ) = {
+  private def generatePDF( uuid: String, collName: String ): Unit = {
     exportador.setRutaSalida( reporteRutaSalidaPDF + "_" + collName + "_" + uuid + ".pdf" )
     exportador.exportarDocumentoAPDF
   } 

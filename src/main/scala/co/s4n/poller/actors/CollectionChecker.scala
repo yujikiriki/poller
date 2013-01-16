@@ -19,7 +19,7 @@ class CollectionChecker( ) extends Actor {
   /**
    * Looks for a Document in the Collection thats has a "done" attribute 
    */
-  def checkCollection( check: Check ) =
+  def checkCollection( check: Check ): Unit =
     if( isReportDone( check.collName ) )
       sender ! new ReportDone( check.collName, check.format, check.jasperTemplate, check.email )
     else

@@ -13,6 +13,7 @@ object PollerCollectionDataServices {
   def isReportDone( aCollName: String ): Boolean = {
     val coll: MongoCollection = db( aCollName )
     val doc = MongoDBObject( "tipoDocumento" -> "done" )
+    /**/
     if( 1 == coll.findOne( doc ).size ) {
       coll.remove( doc )
       true
