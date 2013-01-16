@@ -1,3 +1,4 @@
+# Fat or temporal things
 *.jar
 *~
 
@@ -5,7 +6,6 @@
 /project/target/
 /project/project/target
 /target/
-/src/jline/target/
 
 # target directories for ant build
 /build/
@@ -21,6 +21,9 @@
 /.project
 /.cache
 /.settings
+
+# Scala worksheet
+/.worksheet
 
 # bak files produced by ./cleanup-commit
 *.bak
