@@ -13,7 +13,7 @@ import co.s4n.poller.infrastructure.acl.EmailService
 class Poller extends Actor {
   
   def receive = {
-    case begin: Begin => {
+    case begin: Begin => {     
       println( "Begin..." )
       scheduleACollectionCheck( begin.collName, begin.format, begin.jasperTemplate, begin.email )
     }
