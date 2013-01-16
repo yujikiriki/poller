@@ -34,13 +34,13 @@ class Poller extends Actor {
   /**
    * Send a new Check message to the CollectionChecker actor. This method only schedule the Check once.
    */
-  def scheduleACollectionCheck( collName: String, format: String, jasperTemplate: String, email: String ) = 
+  def scheduleACollectionCheck( collName: String, format: String, jasperTemplate: String, email: String ): Unit = 
     context.system.scheduler.scheduleOnce( 10 seconds ) {
       checker ! new Check( collName, format, jasperTemplate, email )
     }
   
   override val supervisorStrategy = OneForOneStrategy( maxNrOfRetries = 3, withinTimeRange = 100 seconds ) {
-    case _: java.lang.NullPointerException => {
+    case _: java.lang.Exception => {
       println( "Error no controlado en CollectionChecker" )
       Stop
     }

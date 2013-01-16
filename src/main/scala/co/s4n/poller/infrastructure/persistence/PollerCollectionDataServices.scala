@@ -6,11 +6,14 @@ import com.mongodb.casbah.commons.MongoDBObject
 import com.mongodb.casbah.MongoDB
 
 object PollerCollectionDataServices {
-  val db: MongoDB = MongoConnection( mongoDbURL )( databaseName )
+  
+  /* TODO: Should be wrapper inside a Loan Pattern */
+  private val db: MongoDB = MongoConnection( mongoDbURL )( databaseName )
   
   def isReportDone( aCollName: String ): Boolean = {
     val coll: MongoCollection = db( aCollName )
     val doc = MongoDBObject( "tipoDocumento" -> "done" )
+    /**/
     if( 1 == coll.findOne( doc ).size ) {
       coll.remove( doc )
       true

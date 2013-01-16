@@ -7,7 +7,7 @@ import java.util.UUID
 object ReportGenerationService {
   private val exportador = new ExportadorDocumentos
   
-  def generate( collName: String, format: String, jasperTemplate: String ) = {
+  def generate( collName: String, format: String, jasperTemplate: String ): Unit = {
     exportador.setMongoURI( "mongodb://" + mongoDbURL + ":" + mongoDbPort + "/" + databaseName )
     exportador.setRutaObjetoJasper( jasperTemplatePath + jasperTemplate + ".jasper" )
     exportador.setColeccion( collName )
