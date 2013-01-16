@@ -7,6 +7,8 @@ import com.mongodb.casbah.commons.MongoDBObject
 import co.s4n.poller.{ ReportDone, Check, BuildingReport }
 import co.s4n.poller.ReportDone
 import co.s4n.poller.infrastructure.acl.PollerProperties._
+import co.s4n.poller.infrastructure.persistence.PollerCollectionDataServices._
+
 
 class CollectionChecker( ) extends Actor {  
   
@@ -17,19 +19,9 @@ class CollectionChecker( ) extends Actor {
   /**
    * Looks for a Document in the Collection thats has a "done" attribute 
    */
-  /* TODO: Should be wrapper inside a Loan Pattern */
-  /* TODO: Needs a new data layer */
-  def checkCollection( check: Check ) = {
-    val mongoColl = MongoConnection( mongoDbURL )( databaseName )( check.collName )
-    val doc = MongoDBObject( "tipoDocumento" -> "done" )
-    
-    if( 1 == mongoColl.findOne( doc ).size ) {
-      /* Remove the document with the done flag so it does not appear in the report */
-      mongoColl.remove( doc )
+  def checkCollection( check: Check ) =
+    if( isReportDone( check.collName ) )
       sender ! new ReportDone( check.collName, check.format, check.jasperTemplate, check.email )
-    }
-    else {
+    else
       sender ! new BuildingReport( check.collName, check.format, check.jasperTemplate, check.email )
-    }
-  }
 }
