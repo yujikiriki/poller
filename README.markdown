@@ -6,7 +6,7 @@ The purpose...
 ## Design
 The design of the poller is...
 
-## Technologies
+## Projects used
 * MongoDB
 * Scala
 * Akka
@@ -14,4 +14,5 @@ The design of the poller is...
 * ScalaTest
 * Casbah
 * sbt
-
+* RESTassured
+* JUnit
