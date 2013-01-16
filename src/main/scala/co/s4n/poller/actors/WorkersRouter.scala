@@ -15,17 +15,13 @@ class WorkersRouter extends Actor {
   }
   
   override val supervisorStrategy = OneForOneStrategy( maxNrOfRetries = 3, withinTimeRange = 100 seconds ) {
-  case _: java.lang.NullPointerException =>  {
-	  println( "NullPointerException" )
-	  Stop
-  }
-  case _: net.sf.jasperreports.engine.JRRuntimeException => {
+    case _: net.sf.jasperreports.engine.JRRuntimeException => {
 	  println( "Jasper error" )
 	  Stop
-  }
-  case _: Exception => {
+    }
+    case _: Exception => {
 	  println( "Error no controlado en WorkersRouter" )
 	  Stop
-  }
+    }
   }
 }

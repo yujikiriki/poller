@@ -9,7 +9,6 @@ import co.s4n.poller.ReportDone
 import co.s4n.poller.infrastructure.acl.PollerProperties._
 import co.s4n.poller.infrastructure.persistence.PollerCollectionDataServices._
 
-
 class CollectionChecker( ) extends Actor {  
   
   def receive = {

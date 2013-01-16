@@ -40,7 +40,7 @@ class Poller extends Actor {
     }
   
   override val supervisorStrategy = OneForOneStrategy( maxNrOfRetries = 3, withinTimeRange = 100 seconds ) {
-    case _: java.lang.NullPointerException => {
+    case _: java.lang.Exception => {
       println( "Error no controlado en CollectionChecker" )
       Stop
     }
