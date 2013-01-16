@@ -6,6 +6,7 @@ import co.s4n.poller.actors.WorkersRouter
 import akka.routing.RoundRobinRouter
 import com.typesafe.config.ConfigFactory
 import java.net.InetAddress
+import co.s4n.poller.web._
 
 object Main extends App with SprayCanHttpServerApp {
   /* Load the custom configuration file */
@@ -13,5 +14,5 @@ object Main extends App with SprayCanHttpServerApp {
   /* Create only one worker router (actorOf) */
   val router = akkaSystem.actorOf( Props[WorkersRouter].withRouter( RoundRobinRouter( nrOfInstances = 10 ) ), name = "WorkerRouter" )
   val handler = akkaSystem.actorOf( Props[PollerServiceActor] )
-  newHttpServer(handler) ! Bind( interface = "192.168.1.77", port = 7474 )
+  newHttpServer(handler) ! Bind( interface = "localhost", port = 7474 )
 }

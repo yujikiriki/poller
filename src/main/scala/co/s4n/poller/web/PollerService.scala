@@ -1,14 +1,14 @@
-package co.s4n.poller
-
-import akka.actor.{Props, Actor}
+package co.s4n.poller.web
+import akka.actor.Actor
 import spray.routing.HttpService
-import spray.routing.Directives
-import java.util.Date
 import co.s4n.poller.BeginMessageJsonProtocol._
 import spray.httpx.SprayJsonSupport._
-import co.s4n.poller.actors.WorkersRouter
-import akka.routing.RoundRobinRouter
 import spray.http.StatusCodes._
+import akka.actor.actorRef2Scala
+import co.s4n.poller.Begin
+import spray.routing.Directive.pimpApply
+import spray.routing.directives.CompletionMagnet.fromObject
+import spray.routing.directives.CompletionMagnet.fromStatusObject
 
 class PollerServiceActor extends Actor with PollerService {
   def actorRefFactory = context  

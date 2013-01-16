@@ -1,7 +1,7 @@
 package co.s4n.poller.actors
 
 import akka.util.duration._
-import akka.actor.Actor
+import akka.actor.{ Actor, OneForOneStrategy }
 import co.s4n.poller.{ Begin, ReportDone, Check, BuildingReport }
 import java.lang.Long._
 import java.util.Calendar
@@ -9,8 +9,10 @@ import akka.actor.Scheduler
 import akka.actor.Props
 import co.s4n.poller.infrastructure.acl.ReportGenerationService
 import co.s4n.poller.infrastructure.acl.EmailService
+import akka.actor.SupervisorStrategy._
 
 class Poller extends Actor {
+  val checker = context.actorOf( Props[CollectionChecker], name = "CollectionChecker" )
   
   def receive = {
     case begin: Begin => {     
@@ -32,9 +34,15 @@ class Poller extends Actor {
   /**
    * Send a new Check message to the CollectionChecker actor. This method only schedule the Check once.
    */
-  def scheduleACollectionCheck( collName: String, format: String, jasperTemplate: String, email: String ) = context.system.scheduler.scheduleOnce( 50 milliseconds ) {
-    val checker = context.actorOf( Props( new CollectionChecker ( collName ) ) )
-    checker ! new Check( collName, format, jasperTemplate, email )
-  }
+  def scheduleACollectionCheck( collName: String, format: String, jasperTemplate: String, email: String ) = 
+    context.system.scheduler.scheduleOnce( 10 seconds ) {
+      checker ! new Check( collName, format, jasperTemplate, email )
+    }
   
+  override val supervisorStrategy = OneForOneStrategy( maxNrOfRetries = 3, withinTimeRange = 100 seconds ) {
+    case _: java.lang.NullPointerException => {
+      println( "Error no controlado en CollectionChecker" )
+      Stop
+    }
+  }
 }

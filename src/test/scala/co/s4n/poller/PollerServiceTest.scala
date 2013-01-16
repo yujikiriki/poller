@@ -18,7 +18,7 @@ class PollerServiceTest extends FunSuite with BeforeAndAfter {
 
   before {
     /* RestAssured config */
-    baseURI = "http://192.168.1.77"
+    baseURI = "http://localhost"
     port = 7474
   }
   
