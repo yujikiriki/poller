@@ -18,7 +18,7 @@ class PollerServiceTest extends FunSuite with BeforeAndAfter {
 
   before {
     /* RestAssured config */
-    baseURI = "http://localhost"
+    baseURI = "http://192.168.1.77"
     port = 7474
   }
   
@@ -27,20 +27,20 @@ class PollerServiceTest extends FunSuite with BeforeAndAfter {
       .statusCode( 200 )
       .body( equalTo( "PONG" ) ) 
     .when.get( "/tasks" )
-    info( "The service is aliave and hapy to serve!!!" )
+    info( "The service is aliave and happy to serve!!!" )
   }
   
   test( "Generate a report" ) {
     RestAssured
       .given
         .contentType( "application/json" )      
-        .body( "{ \"collName\" : \"ReporteDocumentosClienteSIN_IDENTIFICACION_EXTERIOR_PLATAFORMA\", \"format\" : \"csv\" }" )
+        .body( """{ "collName" : "ReporteDocumentosClienteSIN_IDENTIFICACION_EXTERIOR_PLATAFORMA", "format" : "csv", "jasperTemplate" : "ReporteDocumentosCliente", "email" : "" }""" )
       .expect
         .statusCode( 201 )
       .post( "/tasks" )
   }
   
-  test( "Verify the generation of a requested report" ) ( pending )
+  ignore( "Verify the generation of a requested report" ) ( pending )
   
   ignore( "Load test usign creation" ) {
     for( i <- 1 to 20 ) {    

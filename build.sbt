@@ -4,12 +4,12 @@ assemblySettings
 
 mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
   {
-    case PathList("javax", "xml", xs @ _*) => MergeStrategy.first
+    case PathList("javax", "xml", xs @ _*) => MergeStrategy.last
     case PathList("org", "apache", "commons", "collections", xs @ _*) => MergeStrategy.last
     case PathList("org", "w3c", "dom", xs @ _*) => MergeStrategy.last
+    case "jasperreports_extension.properties" => MergeStrategy.last    
     case ".project" => MergeStrategy.discard
     case ".classpath" => MergeStrategy.discard
-    case "jasperreports_extension.properties" => MergeStrategy.first
     case x => old(x)
   }
 }
@@ -55,5 +55,5 @@ libraryDependencies ++= Seq(
 	"log4j" % "log4j" % "1.2.16",	
 	"org.apache.poi" % "poi" % "3.9",
 	"com.mongodb.casbah" % "casbah_2.9.0-1" % "2.1.5.0",
-	"org.slf4j" % "slf4j-nop" % "1.6.0"            
+	"org.slf4j" % "slf4j-nop" % "1.6.0"	
 )

@@ -24,6 +24,7 @@ trait PollerService extends HttpService {
     path( "tasks" ) {
       post {
 	    entity( as[Begin] ) { begin =>
+	      println( "Request received: " + begin )
 	      router ! begin
 	      complete( Created, "" )
 	    }

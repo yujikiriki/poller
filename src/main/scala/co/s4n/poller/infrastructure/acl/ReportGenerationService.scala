@@ -1,13 +1,14 @@
 package co.s4n.poller.infrastructure.acl
 
 import com.certicamara.certifactura.generador.documentos.ExportadorDocumentos
+import co.s4n.poller.infrastructure.acl.PollerProperties._
 
 object ReportGenerationService {
   private val exportador = new ExportadorDocumentos
-  exportador.setRutaObjetoJasper( "/home/yuji/Desktop/ReporteDocumentosCliente.jasper" )
-  exportador.setMongoURI( "mongodb://192.168.1.29:27017/certifacturadb" )
   
-  def generate( collName: String, format: String ) = {
+  def generate( collName: String, format: String, jasperTemplate: String ) = {
+    exportador.setMongoURI( "mongodb://" + mongoDbURL + ":" + mongoDbPort + "/" + databaseName )
+    exportador.setRutaObjetoJasper( jasperTemplatePath + jasperTemplate + ".jasper" )
     exportador.setColeccion( collName )
     generateForTheSpecifiedFormat( format )
   }
@@ -19,14 +20,12 @@ object ReportGenerationService {
   }
   
   private def generateCSV = {
-    println( "Generando CSV..." )
-    exportador.setRutaSalida( "/home/yuji/Desktop/prueba.csv" )
+    exportador.setRutaSalida( reporteRutaSalidaCSV )
     exportador.exportarDocumentoACsv    
   }
   
   private def generatePDF = {
-    println( "Generando PDF..." )
-    exportador.setRutaSalida( "/home/yuji/Desktop/prueba.pdf" )
+    exportador.setRutaSalida( reporteRutaSalidaPDF )
     exportador.exportarDocumentoAPDF
   } 
 }

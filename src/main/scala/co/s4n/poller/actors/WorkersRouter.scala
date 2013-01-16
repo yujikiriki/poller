@@ -13,6 +13,14 @@ class WorkersRouter extends Actor {
       println( "No hubo conexion a la base de datos" )
       Restart
     }
+    case _: java.lang.NullPointerException =>  {
+      println( "NullPointerException" )
+      Stop
+    }
+    case _: net.sf.jasperreports.engine.JRRuntimeException => {
+      println( "Jasper error" )
+      Stop
+    }
     case _: Exception => {
       println( "Error nuevo y no controlado" )
       Stop
