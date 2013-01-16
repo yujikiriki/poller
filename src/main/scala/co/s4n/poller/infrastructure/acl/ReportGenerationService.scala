@@ -15,21 +15,20 @@ object ReportGenerationService {
   }
   
   private def generateForTheSpecifiedFormat( collName: String, format: String ) = {
-	val uuid = UUID.randomUUID.toString( )
     format match {
       case "zip" => println( "zip" )
-      case "csv" => generateCSV( uuid, collName )
-      case "pdf" => generatePDF( uuid, collName )
+      case "csv" => generateCSV( collName )
+      case "pdf" => generatePDF( collName )
     }
   }
   
-  private def generateCSV( uuid: String, collName: String ) = {
-    exportador.setRutaSalida( reporteRutaSalidaCSV + "_" + collName + "_" + uuid + ".csv" )
+  private def generateCSV( collName: String ) = {
+    exportador.setRutaSalida( reporteRutaSalidaCSV + collName + ".csv" )
     exportador.exportarDocumentoACsv    
   }
   
-  private def generatePDF( uuid: String, collName: String ) = {
-    exportador.setRutaSalida( reporteRutaSalidaPDF + "_" + collName + "_" + uuid + ".pdf" )
+  private def generatePDF( collName: String ) = {
+    exportador.setRutaSalida( reporteRutaSalidaPDF + collName + ".pdf" )
     exportador.exportarDocumentoAPDF
   } 
 }
