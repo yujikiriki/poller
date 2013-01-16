@@ -6,7 +6,6 @@ import com.mongodb.casbah.commons.MongoDBObject
 import com.mongodb.casbah.MongoDB
 
 object PollerCollectionDataServices {
-  
   /* TODO: Should be wrapper inside a Loan Pattern */
   private val db: MongoDB = MongoConnection( mongoDbURL )( databaseName )
   
