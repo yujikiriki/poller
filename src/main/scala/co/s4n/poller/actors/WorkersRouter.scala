@@ -1,10 +1,11 @@
 package co.s4n.poller.actors
 
 import akka.actor.{Actor, Props, OneForOneStrategy, ActorLogging }
-import akka.util.duration._
+import scala.concurrent.duration._
 import akka.actor.SupervisorStrategy._
 import co.s4n.poller.Begin
 import akka.routing.RoundRobinRouter
+import scala.language.postfixOps
 
 class WorkersRouter extends Actor with ActorLogging {
  

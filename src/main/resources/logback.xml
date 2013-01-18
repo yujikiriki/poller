@@ -6,7 +6,7 @@
     </encoder>
   </appender>
   <appender name="file" class="ch.qos.logback.core.FileAppender">
-    <file>/home/springubuntu/tcserver/certifactura-poller/poller.log</file>
+    <file>poller.log</file>
     <append>true</append>
     <encoder>
       <pattern>[%d{ISO8601}] [%4p] [%t] %c{1}: %m%n</pattern>

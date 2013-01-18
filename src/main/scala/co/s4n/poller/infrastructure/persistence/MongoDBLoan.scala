@@ -9,7 +9,7 @@ trait MongoDBLoan extends Logging {
   /**
    * Loan call for MongoDB
    */
-  def loan( f: MongoConnection => AnyVal )  = {
+  def loan( f: MongoConnection => AnyVal ) = {
     var conn: MongoConnection = null
     try {
       conn = MongoConnection( mongoDbURL )

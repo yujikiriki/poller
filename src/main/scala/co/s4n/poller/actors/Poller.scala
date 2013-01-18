@@ -1,17 +1,16 @@
 package co.s4n.poller.actors
 
-import akka.actor.{ Actor, OneForOneStrategy, Scheduler, Props }
+import akka.actor.{ Actor, OneForOneStrategy, Scheduler, Props, ActorLogging }
 import co.s4n.poller.{ Begin, ReportDone, Check, BuildingReport }
-import java.util.Calendar
-import co.s4n.poller.infrastructure.acl.ReportGenerationService
-import co.s4n.poller.infrastructure.acl.EmailService
-import akka.util.duration._
+import co.s4n.poller.infrastructure.acl.{ ReportGenerationService, EmailService }
+import scala.concurrent.duration._
 import akka.actor.SupervisorStrategy._
 import co.s4n.poller.infrastructure.persistence.PollerCollectionDataServices._
-import java.lang.Long._
-import akka.actor.ActorLogging
+import scala.language.postfixOps
 
 class Poller extends Actor with  ActorLogging {
+  import context.dispatcher
+
   val checker = context.actorOf( Props[CollectionChecker], name = "CollectionChecker" )
   
   def receive = {
