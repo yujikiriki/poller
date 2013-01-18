@@ -13,9 +13,6 @@ import co.s4n.poller.infrastructure.Logging
 
 @RunWith( classOf[JUnitRunner] )
 class PollerServiceTest extends FunSuite with BeforeAndAfter with Logging {
-  /*
-    curl -v -H 'Content-Type:application/json' -d '{ "collName" : "A long string of the collection name", "format" : "pdf|csv|zip" }' http://localhost:7474/tasks 
-  */
 
   before {
     /* RestAssured config */
