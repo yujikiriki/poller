@@ -10,4 +10,5 @@ object PollerProperties {
   val mongoDbURL: String = conf.getString( "PollerSystem.DatabaseConfiguration.mongodb.ip" )
   val mongoDbPort: String = conf.getString( "PollerSystem.DatabaseConfiguration.mongodb.port" )
   val databaseName: String = conf.getString( "PollerSystem.DatabaseConfiguration.name" )
+  val emailServerName: String = conf.getString( "PollerSystem.EmailConfiguration.servername" )
 }

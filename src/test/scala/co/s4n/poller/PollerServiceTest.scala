@@ -12,7 +12,7 @@ import org.scalatest.BeforeAndAfter
 import co.s4n.poller.infrastructure.Logging
 
 @RunWith( classOf[JUnitRunner] )
-class PollerServiceTest extends FunSuite with BeforeAndAfter with Logging {
+class PollerServiceTest extends FunSuite with BeforeAndAfter {
 
   before {
     /* RestAssured config */

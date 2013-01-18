@@ -22,9 +22,9 @@ object ReportGenerationService extends Logging {
 
   private def generateForTheSpecifiedFormat( collName: String, format: String ): String = {
     format match {
-      case "zip" => generateZipFile( collName )
       case "csv" => generateCSV( collName )
       case "pdf" => generatePDF( collName )
+      case "zip" => generateZipFile( collName )
     }
   }
 
@@ -33,7 +33,7 @@ object ReportGenerationService extends Logging {
     exportador.setRutaSalida( path )
     exportador.exportarDocumentoACsv
     log.debug( "CSV file generated to: " + path )
-    path
+    collName + ".csv"
   }
 
   private def generatePDF( collName: String ): String = {
@@ -41,15 +41,15 @@ object ReportGenerationService extends Logging {
     exportador.setRutaSalida( path )
     exportador.exportarDocumentoAPDF
     log.debug( "PDF file generated to: " + path )
-    path
+    collName + ".pdf"
   }
 
   private def generateZipFile( collName: String ): String = {
     val csv: String = generateCSV( collName )
     val pdf: String = generatePDF( collName )
     val path = reporteRutaSalidaPDF + collName + ".zip"
-    zipFile( path, List( csv, pdf ) )
+    zipFile( path, List( reporteRutaSalidaCSV + csv, reporteRutaSalidaPDF + pdf ) )
     log.debug( "Zip file generated to: " + path )
-    path
+    collName + ".zip"
   }
 }

@@ -5,7 +5,7 @@ import co.s4n.mail.ConfigMail
 import co.s4n.mail.Email
 import org.apache.poi.util.StringUtil
 import co.s4n.poller.infrastructure.Logging
-
+import co.s4n.poller.infrastructure.acl.PollerProperties._
 
 object EmailService extends Logging {
   
@@ -16,12 +16,12 @@ object EmailService extends Logging {
       val destinatarios = new java.util.ArrayList[String]
       destinatarios.add( emailAddress )
       val emailSender = new SenderEmail( buildMailConfig )
-      emailSender.send( new Email( destinatarios, "[Certifactura] Reporte" , "El reporte puede ser obtenido ac&aacute;: " + wrapReportLocation( url ) ) )
+      emailSender.send( new Email( destinatarios,  "El reporte ya puede ser obtenido: " + wrapReportLocation( url ), "[Certifactura] Reporte" ) )
     }
   }
   
   private def wrapReportLocation( url: String ): String = {
-    "http://certifactura.com/reportes/" + url
+    "http://" + emailServerName + "/reportes/" + url
   }
   
   private def buildMailConfig( ): ConfigMail = {
