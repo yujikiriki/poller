@@ -9,7 +9,6 @@ import org.hamcrest.Matchers._
 import com.jayway.restassured.RestAssured
 import com.jayway.restassured.http.ContentType
 import org.scalatest.BeforeAndAfter
-import co.s4n.poller.infrastructure.Logging
 
 @RunWith( classOf[JUnitRunner] )
 class PollerServiceTest extends FunSuite with BeforeAndAfter {
