@@ -1,3 +1,4 @@
+
 import AssemblyKeys._
 
 assemblySettings
@@ -10,6 +11,7 @@ mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
     case "jasperreports_extension.properties" => MergeStrategy.last    
     case ".project" => MergeStrategy.discard
     case ".classpath" => MergeStrategy.discard
+    case "defaultconfig.properties" => MergeStrategy.discard
     case x => old(x)
   }
 }
@@ -26,6 +28,8 @@ scalaVersion := "2.9.2"
 
 scalacOptions ++= Seq( "-deprecation", "-unchecked", "-Ydependent-method-types" )
 
+EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
+
 resolvers ++= Seq(
   "snapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
   "releases"  at "http://oss.sonatype.org/content/repositories/releases",
@@ -34,6 +38,7 @@ resolvers ++= Seq(
 
 libraryDependencies ++= Seq(
 	"com.typesafe.akka" % "akka-actor" % "2.0.4",
+	"com.typesafe.akka" % "akka-slf4j" % "2.0.4",
 	"com.chuusai" %% "shapeless" % "1.2.3",
 	"io.spray" % "spray-http" % "1.0-M7",
 	"io.spray" % "spray-httpx" % "1.0-M7",
@@ -45,15 +50,9 @@ libraryDependencies ++= Seq(
 	"junit" % "junit" % "4.10" % "test",
 	"org.scalatest" %% "scalatest" % "1.8" % "test",
 	"com.jayway.restassured" % "rest-assured" %  "1.7.1" % "test",
-	"commons-beanutils" % "commons-beanutils" % "1.8.3",
-	"commons-collections" % "commons-collections" % "3.2.1",
-	"commons-digester" % "commons-digester" % "2.1",
-	"commons-logging" % "commons-logging" % "1.1.1",
 	"com.lowagie" % "itext" % "2.1.7",
 	"net.sf.jasperreports" % "jasperreports" % "4.7.0",
-	"commons-pool" % "commons-pool" % "1.6",
-	"log4j" % "log4j" % "1.2.16",	
 	"org.apache.poi" % "poi" % "3.9",
-	"com.mongodb.casbah" % "casbah_2.9.0-1" % "2.1.5.0",
-	"org.slf4j" % "slf4j-nop" % "1.6.0"	
+	"com.mongodb.casbah" % "casbah_2.9.0-1" % "2.1.5.0"	,
+	"ch.qos.logback" % "logback-classic" % "1.0.0" % "runtime"
 )

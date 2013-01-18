@@ -1,0 +1,34 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          Certifactura Poller daemon
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     true
+# Short-Description: Start/stop the Poller service
+### END INIT INFO
+ 
+case $1 in
+    start)
+        echo "Starting poller ..."
+        if [ ! -f /home/springubuntu/tcserver/certifactura-poller/pid ]; then
+            nohup java -jar /home/springubuntu/tcserver/certifactura-poller/poller.jar /home/springubuntu/tcserver/certifactura-poller 2>> /dev/null >> /dev/null &
+            echo $! > /home/springubuntu/tcserver/certifactura-poller/pid
+            echo "Poller started ..."
+        else
+            echo "Poller is already running ..."
+        fi
+    ;;
+    stop)
+        if [ -f /home/springubuntu/tcserver/certifactura-poller/pid ]; then
+            PID=$(cat /home/springubuntu/tcserver/certifactura-poller/pid);
+            echo "Stopping poller ..."
+	    export SUDO_ASKPASS="/home/springubuntu/tcserver/certifactura-poller/sudopw.sh"; sudo -A kill $PID;
+            echo "Poller stopped ..."
+            rm /home/springubuntu/tcserver/certifactura-poller/pid
+        else
+            echo "The poller is not running ..."
+        fi
+    ;;
+esac

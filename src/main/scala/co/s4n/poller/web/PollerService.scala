@@ -1,37 +1,36 @@
 package co.s4n.poller.web
-import akka.actor.Actor
+
+import akka.actor.{ Actor, actorRef2Scala, ActorLogging }
 import spray.routing.HttpService
-import co.s4n.poller.BeginMessageJsonProtocol._
+import spray.routing.Directive.pimpApply
 import spray.httpx.SprayJsonSupport._
 import spray.http.StatusCodes._
-import akka.actor.actorRef2Scala
+import spray.routing.directives.CompletionMagnet._
+import co.s4n.poller.BeginMessageJsonProtocol._
 import co.s4n.poller.Begin
-import spray.routing.Directive.pimpApply
-import spray.routing.directives.CompletionMagnet.fromObject
-import spray.routing.directives.CompletionMagnet.fromStatusObject
+import akka.event.Logging
 
-class PollerServiceActor extends Actor with PollerService {
-  def actorRefFactory = context  
+class PollerServiceActor extends Actor with ActorLogging with HttpService {
+  
+  val actorRefFactory = context  
   def receive = runRoute( route )
-}
-
-trait PollerService extends HttpService {
   
-  /* Reference to the local router */
-  val router = actorRefFactory.actorFor( "/user/WorkerRouter" )
-  
+  val router = actorRefFactory.actorFor( "/user/WorkerRouter" )  
   val route = {
-    path( "tasks" ) {
-      post {
-	    entity( as[Begin] ) { begin =>
-	      println( "Request received: " + begin )
-	      router ! begin
-	      complete( Created, "" )
-	    }
-	  } ~
-      get {
-        complete( "PONG" )
-      }
-	}
-  }
+	  path( "tasks" ) {
+		  post {
+			  entity( as[Begin] ) { begin =>
+			  log.info( "INFO - Resquest received: " + begin )
+			  router ! begin
+			  complete( Created, "" )
+			  }
+		  } ~
+		  get {
+			  complete( "PONG" )
+		  }
+	  }
+  }  
+  
+  
+
 }

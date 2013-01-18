@@ -8,8 +8,9 @@ import co.s4n.poller.{ ReportDone, Check, BuildingReport }
 import co.s4n.poller.ReportDone
 import co.s4n.poller.infrastructure.acl.PollerProperties._
 import co.s4n.poller.infrastructure.persistence.PollerCollectionDataServices._
+import spray.util.SprayActorLogging
 
-class CollectionChecker( ) extends Actor {  
+class CollectionChecker( ) extends Actor with SprayActorLogging {  
   
   def receive = {
     case check: Check => checkCollection( check )

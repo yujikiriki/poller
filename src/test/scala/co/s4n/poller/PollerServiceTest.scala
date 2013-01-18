@@ -9,9 +9,10 @@ import org.hamcrest.Matchers._
 import com.jayway.restassured.RestAssured
 import com.jayway.restassured.http.ContentType
 import org.scalatest.BeforeAndAfter
+import co.s4n.poller.infrastructure.Logging
 
 @RunWith( classOf[JUnitRunner] )
-class PollerServiceTest extends FunSuite with BeforeAndAfter {
+class PollerServiceTest extends FunSuite with BeforeAndAfter with Logging {
   /*
     curl -v -H 'Content-Type:application/json' -d '{ "collName" : "A long string of the collection name", "format" : "pdf|csv|zip" }' http://localhost:7474/tasks 
   */
@@ -27,7 +28,6 @@ class PollerServiceTest extends FunSuite with BeforeAndAfter {
       .statusCode( 200 )
       .body( equalTo( "PONG" ) ) 
     .when.get( "/tasks" )
-    info( "The service is aliave and happy to serve!!!" )
   }
   
   test( "Generate a report" ) {

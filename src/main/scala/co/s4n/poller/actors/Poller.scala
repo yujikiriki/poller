@@ -1,33 +1,36 @@
 package co.s4n.poller.actors
 
-import akka.util.duration._
-import akka.actor.{ Actor, OneForOneStrategy }
+import akka.actor.{ Actor, OneForOneStrategy, Scheduler, Props }
 import co.s4n.poller.{ Begin, ReportDone, Check, BuildingReport }
-import java.lang.Long._
 import java.util.Calendar
-import akka.actor.Scheduler
-import akka.actor.Props
 import co.s4n.poller.infrastructure.acl.ReportGenerationService
 import co.s4n.poller.infrastructure.acl.EmailService
+import akka.util.duration._
 import akka.actor.SupervisorStrategy._
+import co.s4n.poller.infrastructure.persistence.PollerCollectionDataServices._
+import java.lang.Long._
+import akka.actor.ActorLogging
 
-class Poller extends Actor {
+class Poller extends Actor with  ActorLogging {
   val checker = context.actorOf( Props[CollectionChecker], name = "CollectionChecker" )
   
   def receive = {
-    case begin: Begin => {     
-      println( "Begin..." )
+    case begin: Begin => {  
+      log.info( "Begin..." )
       scheduleACollectionCheck( begin.collName, begin.format, begin.jasperTemplate, begin.email )
     }
     case buildingReport: BuildingReport => {
-      println( "Building report..." )
+      log.info( "Building report..." )
       scheduleACollectionCheck( buildingReport.collName, buildingReport.format, buildingReport.jasperTemplate, buildingReport.email )
     }
     case reportDone: ReportDone => {
-      ReportGenerationService.generate( reportDone.collName, reportDone.format, reportDone.jasperTemplate )
-      println( "Sending email..." )
-      EmailService.send( reportDone.email )
-      println( "Done..." )
+      log.info( "Begin the report generation..." )
+      val generatedReportPath = ReportGenerationService.generate( reportDone.collName, reportDone.format, reportDone.jasperTemplate )
+      log.info( "Sending email..." )
+      EmailService.send( reportDone.email, generatedReportPath )
+      log.info( "Deleting the report collection..." )
+      removeReportCollection( reportDone.collName )
+      log.info( "Done!" )
     }
   }
    
@@ -41,7 +44,7 @@ class Poller extends Actor {
   
   override val supervisorStrategy = OneForOneStrategy( maxNrOfRetries = 3, withinTimeRange = 100 seconds ) {
     case _: java.lang.Exception => {
-      println( "Error no controlado en CollectionChecker" )
+      log.error( "Error no controlado en CollectionChecker" )
       Stop
     }
   }
