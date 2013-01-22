@@ -16,7 +16,7 @@ trait MongoDBLoan extends Logging {
     }
     case Failure( ex ) => {
       log.error( ex.getMessage )
-      throw new DBConnectionException( "Poller no se pudo conectar a MongoDB. ¿La URL es correcta? URL = " + mongoDbURL  )
+      throw new DBConnectionException( "No se pudo conectar a MongoDB. ¿La URL es correcta? URL = " + mongoDbURL  )
     }
   }
   

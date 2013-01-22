@@ -11,6 +11,7 @@ import com.mongodb.DBObject
 object PollerCollectionDataServices extends MongoDBLoan with Logging {
   
   def isReportDone( aCollName: String ): Boolean = {
+    /* The MongoDB operations */
     def f( conn: MongoConnection ): Boolean = {
       val coll: MongoCollection = conn( databaseName )( aCollName )
       val doc: DBObject = MongoDBObject( "tipoDocumento" -> "done" )
@@ -21,16 +22,17 @@ object PollerCollectionDataServices extends MongoDBLoan with Logging {
       }
       false
     }
+    /* Loan call */
     loan( f )
   }
   
-  def removeReportCollection( aCollName: String ): Boolean = {
-    def f( conn: MongoConnection ): Boolean = {
+  def removeReportCollection( aCollName: String ): Unit = {
+    /* The MongoDB operations */
+    def f( conn: MongoConnection ): Unit = {
       val coll: MongoCollection = conn( databaseName )( aCollName )
       coll.drop
-      conn.close
-      true
     }
+    /* Loan call */
     loan( f )
   }
 }

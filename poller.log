@@ -1,0 +1,4 @@
+[2013-01-22 15:50:14,959] [INFO] [PollerSystem-akka.actor.default-dispatcher-4] a.e.s.Slf4jEventHandler: Slf4jEventHandler started
+[2013-01-22 15:50:15,238] [INFO] [co-s4n-poller-Main-akka.actor.default-dispatcher-2] a.e.s.Slf4jEventHandler: Slf4jEventHandler started
+[2013-01-22 15:50:15,319] [INFO] [co-s4n-poller-Main-akka.actor.default-dispatcher-6] akka://co-s4n-poller-Main/user/io-bridge: akka://co-s4n-poller-Main/user/io-bridge started
+[2013-01-22 15:50:15,441] [INFO] [co-s4n-poller-Main-akka.actor.default-dispatcher-5] akka://co-s4n-poller-Main/user/http-server: akka://co-s4n-poller-Main/user/http-server started on localhost/127.0.0.1:7474
