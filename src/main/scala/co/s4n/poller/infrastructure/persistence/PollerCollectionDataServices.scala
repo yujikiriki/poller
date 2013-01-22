@@ -5,25 +5,32 @@ import co.s4n.poller.infrastructure.acl.PollerProperties._
 import com.mongodb.casbah.commons.MongoDBObject
 import com.mongodb.casbah.MongoDB
 import co.s4n.poller.infrastructure.Logging
+import scala.util.{Try}
+import com.mongodb.DBObject
 
 object PollerCollectionDataServices extends MongoDBLoan with Logging {
-  val conn  = MongoConnection( mongoDbURL )
   
   def isReportDone( aCollName: String ): Boolean = {
-    val coll: MongoCollection = conn( databaseName )( aCollName )
-    val doc = MongoDBObject( "tipoDocumento" -> "done" )
-    if( 1 == coll.findOne( doc ).size ) {
-      coll.remove( doc )
-      log.debug( "Documento con estado done eliminado" )
-      true
-    }
-    else        
+    def f( conn: MongoConnection ): Boolean = {
+      val coll: MongoCollection = conn( databaseName )( aCollName )
+      val doc: DBObject = MongoDBObject( "tipoDocumento" -> "done" )
+      if( 1 == coll.findOne( doc ).size ) {
+        coll.remove( doc )
+        log.debug( "Documento con estado 'done' eliminado" )
+        true
+      }
       false
+    }
+    loan( f )
   }
   
-  def removeReportCollection( aCollName: String ): Unit = {
-    val coll: MongoCollection = conn( databaseName )( aCollName )
-    coll.drop
-    log.debug( "Colleccion con el reporte eliminada" )
+  def removeReportCollection( aCollName: String ): Boolean = {
+    def f( conn: MongoConnection ): Boolean = {
+      val coll: MongoCollection = conn( databaseName )( aCollName )
+      coll.drop
+      conn.close
+      true
+    }
+    loan( f )
   }
 }

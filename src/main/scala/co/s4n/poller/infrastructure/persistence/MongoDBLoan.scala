@@ -3,25 +3,21 @@ package co.s4n.poller.infrastructure.persistence
 import com.mongodb.casbah.{MongoConnection, MongoCollection}
 import co.s4n.poller.infrastructure.acl.PollerProperties._
 import co.s4n.poller.infrastructure.Logging
+import scala.util.{ Try, Success, Failure }
+import co.s4n.poller.infrastructure.DBConnectionException
 
-trait MongoDBLoan extends Logging {
-  
-  /**
-   * Loan call for MongoDB
-   */
-  def loan( f: MongoConnection => AnyVal ) = {
-    var conn: MongoConnection = null
-    try {
-      conn = MongoConnection( mongoDbURL )
-      /* Call the function */
-      f( conn )
-    } catch {
-      case e: Exception => {
-        e.printStackTrace
-        log.error( e.getMessage( ) ) 
-      }
-    } finally {
+trait MongoDBLoan extends Logging { 
+
+  def loan[T]( f: MongoConnection => T ): T = Try( MongoConnection( mongoDbURL ) ) match {
+    case Success( conn ) => {
+      val result: T = f( conn )
       conn.close
+      result
+    }
+    case Failure( ex ) => {
+      log.error( ex.getMessage )
+      throw new DBConnectionException( "Poller no se pudo conectar a MongoDB. ¿La URL es correcta? URL = " + mongoDbURL  )
     }
   }
+  
 }
