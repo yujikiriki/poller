@@ -1,0 +1,31 @@
+The Richardson Maturity Model
+Hypermedia Formats
+HATEOAS – Hypermedia As The Engine Of
+Application State
+Semantics
+A Simple RESTful Service
+Motivation and Introduction
+Web Architecture
+RPC Again!
+Embracing HTTP as an application protocol
+Semantics
+Hypermedia
+RESTful services
+Scalability
+Atom and AtomPub
+Security
+WS-* Wars
+Conclusions and further thoughts
+Web	basics	
+URI	templates	
+RPC	
+HTTP	
+CRUD 
+Semantics	
+Hypermedia formats	
+Restbucks DAP	
+Restbucks  retrospective	
+Hypermedia design	
+  
+
+
